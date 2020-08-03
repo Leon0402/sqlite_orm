@@ -172,7 +172,7 @@ namespace sqlite_orm {
             }
         };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
         template<class T, class... Args>
         struct ast_iterator<get_all_optional_t<T, Args...>, void> {
             using node_type = get_all_optional_t<T, Args...>;
@@ -182,7 +182,7 @@ namespace sqlite_orm {
                 iterate_ast(get.conditions, l);
             }
         };
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
         template<class... Args, class... Wargs>
         struct ast_iterator<update_all_t<set_t<Args...>, Wargs...>, void> {

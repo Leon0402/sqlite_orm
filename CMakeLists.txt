@@ -1,19 +1,5 @@
 cmake_minimum_required (VERSION 3.16.0)
 
-# Handling C++ standard version to use
-option(SQLITE_ORM_ENABLE_CXX_17 "Enable C++ 17" OFF)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-if(SQLITE_ORM_ENABLE_CXX_17)
-	set(CMAKE_CXX_STANDARD 17)
-	message(STATUS "SQLITE_ORM: Build with C++17 features")
-else()
-	# fallback to C++14 if there is no special instruction
-	set(CMAKE_CXX_STANDARD 14)
-	message(STATUS "SQLITE_ORM: Build with C++14 features")
-endif()
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-
 # PACKAGE_VERSION is used by cpack scripts currently
 # Both sqlite_orm_VERSION and PACKAGE_VERSION should be the same for now
 
@@ -29,6 +15,8 @@ message(STATUS "Configuring ${CMAKE_PROJECT_NAME} ${sqlite_orm_VERSION}")
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
+option(SQLITE_ORM_ENABLE_CXX17 "Enable C++17 features" OFF)
+
 include(CTest)
 
 ### Dependencies
@@ -41,6 +29,9 @@ add_library(sqlite_orm::sqlite_orm ALIAS sqlite_orm)
 
 find_package(SQLite3 REQUIRED)
 target_link_libraries(sqlite_orm INTERFACE SQLite::SQLite3)
+
+target_compile_features(sqlite_orm INTERFACE cxx_std_14)
+target_compile_definitions(sqlite_orm INTERFACE SQLITE_ORM_HAS_CXX17=${SQLITE_ORM_ENABLE_CXX17})
 
 target_sources(sqlite_orm INTERFACE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/sqlite_orm/sqlite_orm.h>)
 

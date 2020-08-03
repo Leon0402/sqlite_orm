@@ -265,7 +265,7 @@ TEST_CASE("Different getters and setters") {
     }
 }
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
 TEST_CASE("Dump") {
 
     struct User {
@@ -297,4 +297,4 @@ TEST_CASE("Dump") {
     const std::string dumpUser2 = storage.dump(allUsers[1]);
     REQUIRE(dumpUser2 == std::string{"{ id : '2', car_year : '2006' }"});
 }
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17

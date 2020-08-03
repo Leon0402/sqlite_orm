@@ -1,9 +1,9 @@
 #include <sqlite_orm/sqlite_orm.h>
 #include <catch2/catch.hpp>
 #include <algorithm>  //  std::count_if
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
 #include <optional>  // std::optional
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
 using namespace sqlite_orm;
 
@@ -131,7 +131,7 @@ TEST_CASE("Unique ptr in update") {
     }
 }
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
 TEST_CASE("Optional in update") {
 
     struct User {
@@ -164,7 +164,7 @@ TEST_CASE("Optional in update") {
         REQUIRE(storage.count<User>(where(is_not_null(&User::carYear))) == 0);
     }
 }
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
 TEST_CASE("Join") {
 

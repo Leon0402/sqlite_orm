@@ -15,10 +15,6 @@ __pragma(push_macro("min"))
 
 #include <ciso646>  //  due to #166
 
-#if __cplusplus >= 201703L  // use of C++17 or higher
-// Enables use of std::optional in SQLITE_ORM.
-#define SQLITE_ORM_OPTIONAL_SUPPORTED
-#endif
 #pragma once
 
 #include <system_error>  // std::error_code, std::system_error
@@ -282,9 +278,9 @@ namespace sqlite_orm {
 #include <string>  //  std::string
 #include <memory>  //  std::shared_ptr, std::unique_ptr
 #include <vector>  //  std::vector
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
 #include <optional>  // std::optional
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
 namespace sqlite_orm {
 
@@ -380,10 +376,10 @@ namespace sqlite_orm {
     template<class T>
     struct type_printer<std::unique_ptr<T>, void> : public type_printer<T> {};
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     template<class T>
     struct type_printer<std::optional<T>, void> : public type_printer<T> {};
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
     template<>
     struct type_printer<std::vector<char>, void> : public blob_printer {};
@@ -861,9 +857,9 @@ namespace sqlite_orm {
 
 #include <type_traits>  //  std::false_type, std::true_type
 #include <memory>  //  std::shared_ptr, std::unique_ptr
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
 #include <optional>  // std::optional
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
 namespace sqlite_orm {
 
@@ -901,7 +897,7 @@ namespace sqlite_orm {
         }
     };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     /**
      *  This is a specialization for std::optional. std::optional is nullable.
      */
@@ -911,7 +907,7 @@ namespace sqlite_orm {
             return t.has_value();
         }
     };
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
 }
 #pragma once
@@ -1694,9 +1690,9 @@ namespace sqlite_orm {
 #include <vector>  //  std::vector
 #include <cstddef>  //  std::nullptr_t
 #include <memory>  //  std::shared_ptr, std::unique_ptr
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
 #include <optional>  // std::optional
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
 namespace sqlite_orm {
 
@@ -1797,7 +1793,7 @@ namespace sqlite_orm {
         }
     };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     template<class T>
     struct field_printer<std::optional<T>> {
         std::string operator()(const std::optional<T> &t) const {
@@ -1808,7 +1804,7 @@ namespace sqlite_orm {
             }
         }
     };
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 }
 #pragma once
 
@@ -4804,14 +4800,14 @@ namespace sqlite_orm {
         }
     };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     template<>
     struct statement_binder<std::nullopt_t, void> {
         int bind(sqlite3_stmt *stmt, int index, const std::nullopt_t &) {
             return sqlite3_bind_null(stmt, index);
         }
     };
-#endif  //  SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  //  SQLITE_ORM_HAS_CXX17
 
     template<class V>
     struct statement_binder<V, std::enable_if_t<is_std_ptr<V>::value>> {
@@ -4844,7 +4840,7 @@ namespace sqlite_orm {
         }
     };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     template<class T>
     struct statement_binder<std::optional<T>, void> {
         using value_type = T;
@@ -4857,7 +4853,7 @@ namespace sqlite_orm {
             }
         }
     };
-#endif  //  SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  //  SQLITE_ORM_HAS_CXX17
 
     namespace internal {
 
@@ -5124,7 +5120,7 @@ namespace sqlite_orm {
         }
     };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     template<class T>
     struct row_extractor<std::optional<T>, void> {
         using value_type = T;
@@ -5146,7 +5142,7 @@ namespace sqlite_orm {
             }
         }
     };
-#endif  //  SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  //  SQLITE_ORM_HAS_CXX17
     /**
      *  Specialization for std::vector<char>.
      */
@@ -6616,9 +6612,9 @@ namespace sqlite_orm {
 #include <utility>  //  std::forward, std::pair
 #include <algorithm>  //  std::find
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
 #include <optional>  // std::optional
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
 // #include "alias.h"
 
@@ -7135,7 +7131,7 @@ namespace sqlite_orm {
             conditions_type conditions;
         };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
         template<class T, class R, class... Args>
         struct get_all_optional_t {
             using type = T;
@@ -7145,7 +7141,7 @@ namespace sqlite_orm {
 
             conditions_type conditions;
         };
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
         template<class T, class... Wargs>
         struct update_all_t;
@@ -7183,7 +7179,7 @@ namespace sqlite_orm {
             ids_type ids;
         };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
         template<class T, class... Ids>
         struct get_optional_t {
             using type = T;
@@ -7191,7 +7187,7 @@ namespace sqlite_orm {
 
             ids_type ids;
         };
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
         template<class T>
         struct update_t {
@@ -7346,7 +7342,7 @@ namespace sqlite_orm {
         return {move(idsTuple)};
     }
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     /**
      *  Create a get optional statement.
      *  T is an object type mapped to a storage.
@@ -7357,7 +7353,7 @@ namespace sqlite_orm {
         std::tuple<Ids...> idsTuple{std::forward<Ids>(ids)...};
         return {move(idsTuple)};
     }
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
     /**
      *  Create a remove all statement.
@@ -7437,7 +7433,7 @@ namespace sqlite_orm {
         return {move(conditions)};
     }
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     /**
      *  Create a get all optional statement.
      *  T is an object type mapped to a storage.
@@ -7464,7 +7460,7 @@ namespace sqlite_orm {
         args_tuple conditions{std::forward<Args>(args)...};
         return {move(conditions)};
     }
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 }
 
 namespace sqlite_orm {
@@ -7629,7 +7625,7 @@ namespace sqlite_orm {
             }
         };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
         template<class T, class... Args>
         struct ast_iterator<get_all_optional_t<T, Args...>, void> {
             using node_type = get_all_optional_t<T, Args...>;
@@ -7639,7 +7635,7 @@ namespace sqlite_orm {
                 iterate_ast(get.conditions, l);
             }
         };
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
         template<class... Args, class... Wargs>
         struct ast_iterator<update_all_t<set_t<Args...>, Wargs...>, void> {
@@ -10556,7 +10552,7 @@ namespace sqlite_orm {
             return ss.str();
         }
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
         template<class T, class R, class... Args>
         struct statement_serializator<get_all_optional_t<T, R, Args...>, void> {
             using statement_type = get_all_optional_t<T, R, Args...>;
@@ -10566,7 +10562,7 @@ namespace sqlite_orm {
                 return serialize_get_all_impl(get, context);
             }
         };
-#endif  //  SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  //  SQLITE_ORM_HAS_CXX17
 
         template<class T, class R, class... Args>
         struct statement_serializator<get_all_pointer_t<T, R, Args...>, void> {
@@ -10639,7 +10635,7 @@ namespace sqlite_orm {
             }
         };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
         template<class T, class... Ids>
         struct statement_serializator<get_optional_t<T, Ids...>, void> {
             using statement_type = get_optional_t<T, Ids...>;
@@ -10649,7 +10645,7 @@ namespace sqlite_orm {
                 return serialize_get_impl(get, context);
             }
         };
-#endif  //  SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  //  SQLITE_ORM_HAS_CXX17
         template<class T, class... Args>
         struct statement_serializator<select_t<T, Args...>, void> {
             using statement_type = select_t<T, Args...>;
@@ -11346,7 +11342,7 @@ namespace sqlite_orm {
                 return std::shared_ptr<O>(get_pointer<O>(std::forward<Ids>(ids)...));
             }
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
             /**
              *  The same as `get` function but doesn't throw an exception if noting found but
              * returns an empty std::optional. throws std::system_error in case of db error.
@@ -11357,7 +11353,7 @@ namespace sqlite_orm {
                 auto statement = this->prepare(sqlite_orm::get_optional<O>(std::forward<Ids>(ids)...));
                 return this->execute(statement);
             }
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
             /**
              *  SELECT COUNT(*) https://www.sqlite.org/lang_aggfunc.html#count
@@ -11868,7 +11864,7 @@ namespace sqlite_orm {
                 }
             }
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
             template<class T, class R, class... Args>
             prepared_statement_t<get_all_optional_t<T, R, Args...>> prepare(get_all_optional_t<T, R, Args...> get) {
                 auto con = this->get_connection();
@@ -11886,7 +11882,7 @@ namespace sqlite_orm {
                                             sqlite3_errmsg(db));
                 }
             }
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
             template<class... Args, class... Wargs>
             prepared_statement_t<update_all_t<set_t<Args...>, Wargs...>>
@@ -11961,7 +11957,7 @@ namespace sqlite_orm {
                 }
             }
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
             template<class T, class... Ids>
             prepared_statement_t<get_optional_t<T, Ids...>> prepare(get_optional_t<T, Ids...> get) {
                 auto con = this->get_connection();
@@ -11979,7 +11975,7 @@ namespace sqlite_orm {
                                             sqlite3_errmsg(db));
                 }
             }
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
             template<class T>
             prepared_statement_t<update_t<T>> prepare(update_t<T> upd) {
@@ -12430,7 +12426,7 @@ namespace sqlite_orm {
                 }
             }
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
             template<class T, class... Ids>
             std::optional<T> execute(const prepared_statement_t<get_optional_t<T, Ids...>> &statement) {
                 auto &tImpl = this->get_impl<T>();
@@ -12463,7 +12459,7 @@ namespace sqlite_orm {
                     }
                 }
             }
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
             template<class T, class... Ids>
             T execute(const prepared_statement_t<get_t<T, Ids...>> &statement) {
@@ -12670,7 +12666,7 @@ namespace sqlite_orm {
                 return res;
             }
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
             template<class T, class R, class... Args>
             R execute(const prepared_statement_t<get_all_optional_t<T, R, Args...>> &statement) {
                 auto &tImpl = this->get_impl<T>();
@@ -12708,7 +12704,7 @@ namespace sqlite_orm {
                 } while(stepRes != SQLITE_DONE);
                 return res;
             }
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
         };  // struct storage_t
 
         template<class T>
@@ -12849,13 +12845,13 @@ __pragma(pop_macro("min"))
             using type = typename conc_tuple<typename node_tuple<Args>::type...>::type;
         };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
         template<class T, class... Args>
         struct node_tuple<get_all_optional_t<T, Args...>, void> {
             using node_type = get_all_optional_t<T, Args...>;
             using type = typename conc_tuple<typename node_tuple<Args>::type...>::type;
         };
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
         template<class... Args, class... Wargs>
         struct node_tuple<update_all_t<set_t<Args...>, Wargs...>, void> {
@@ -13083,7 +13079,7 @@ namespace sqlite_orm {
         return internal::get_ref(std::get<N>(statement.t.ids));
     }
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     template<int N, class T, class... Ids>
     auto &get(internal::prepared_statement_t<internal::get_optional_t<T, Ids...>> &statement) {
         return internal::get_ref(std::get<N>(statement.t.ids));
@@ -13093,7 +13089,7 @@ namespace sqlite_orm {
     const auto &get(const internal::prepared_statement_t<internal::get_optional_t<T, Ids...>> &statement) {
         return internal::get_ref(std::get<N>(statement.t.ids));
     }
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
     template<int N, class T, class... Ids>
     auto &get(internal::prepared_statement_t<internal::remove_t<T, Ids...>> &statement) {

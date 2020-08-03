@@ -141,7 +141,7 @@ if(auto user = storage.get_pointer<User>(insertedId)){
 }
 ```
 
-`std::unique_ptr` is used as optional in `sqlite_orm`. Of course there is class optional in C++14 located at `std::experimental::optional`. But we don't want to use it until it is `experimental`.
+TO DO: Add example for std::optional
 
 We can also update our user. It updates row by id provided in `user` object and sets all other non `primary_key` fields to values stored in the passed `user` object. So you can just assign members to `user` object you want and call `update`
 
@@ -768,7 +768,22 @@ cd sqlite_orm
 cmake -B build
 cmake --build build --target install
 ```
-You might need admin rights for the last command.
+You might need admin rights for the last command. 
+
+## Configuration 
+
+- `BUILD_TESTING`
+    - **Type**: Boolean
+    - **Description**: Build tests
+    - **Default**: ON (Unless it's added as a subdirectory e.g. with FetchContent)
+- `BUILD_EXAMPLES`
+    - **Type**: Boolean
+    - **Description**: Build examples
+    - **Default**: ON (Unless it's added as a subdirectory e.g. with FetchContent)
+- `SQLITE_ORM_ENABLE_CXX17`
+    - **Type**: Boolean
+    - **Description**: Enable C++17 features (std::optional)
+    - **Default**: OFF
 
 # Usage
 
@@ -786,6 +801,8 @@ If you have installed the lib system wide and it's in your PATH, you can use fin
 
 Alternatively, cmake can download the project directly from github during configure stage and therefore you don't need to install the lib before.
 Againt a target `sqlite_orm::sqlite_orm` will be available which you can link against. Have a look at examples/fetch_content for a full example.
+
+Also have a look at the Configuration section to see what you can customize.
 
 ## None cmake
 

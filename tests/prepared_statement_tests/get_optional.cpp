@@ -5,7 +5,7 @@
 
 using namespace sqlite_orm;
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
 TEST_CASE("Prepared get optional") {
     using namespace PreparedStatementTests;
     using Catch::Matchers::UnorderedEquals;
@@ -146,4 +146,4 @@ TEST_CASE("Prepared get optional") {
         REQUIRE(*user == User{2, "Shy'm"});
     }
 }
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17

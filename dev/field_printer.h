@@ -5,9 +5,9 @@
 #include <vector>  //  std::vector
 #include <cstddef>  //  std::nullptr_t
 #include <memory>  //  std::shared_ptr, std::unique_ptr
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
 #include <optional>  // std::optional
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
 namespace sqlite_orm {
 
@@ -108,7 +108,7 @@ namespace sqlite_orm {
         }
     };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     template<class T>
     struct field_printer<std::optional<T>> {
         std::string operator()(const std::optional<T> &t) const {
@@ -119,5 +119,5 @@ namespace sqlite_orm {
             }
         }
     };
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 }

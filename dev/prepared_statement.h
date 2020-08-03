@@ -105,7 +105,7 @@ namespace sqlite_orm {
             conditions_type conditions;
         };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
         template<class T, class R, class... Args>
         struct get_all_optional_t {
             using type = T;
@@ -115,7 +115,7 @@ namespace sqlite_orm {
 
             conditions_type conditions;
         };
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
         template<class T, class... Wargs>
         struct update_all_t;
@@ -153,7 +153,7 @@ namespace sqlite_orm {
             ids_type ids;
         };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
         template<class T, class... Ids>
         struct get_optional_t {
             using type = T;
@@ -161,7 +161,7 @@ namespace sqlite_orm {
 
             ids_type ids;
         };
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
         template<class T>
         struct update_t {
@@ -316,7 +316,7 @@ namespace sqlite_orm {
         return {move(idsTuple)};
     }
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     /**
      *  Create a get optional statement.
      *  T is an object type mapped to a storage.
@@ -327,7 +327,7 @@ namespace sqlite_orm {
         std::tuple<Ids...> idsTuple{std::forward<Ids>(ids)...};
         return {move(idsTuple)};
     }
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
     /**
      *  Create a remove all statement.
@@ -407,7 +407,7 @@ namespace sqlite_orm {
         return {move(conditions)};
     }
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     /**
      *  Create a get all optional statement.
      *  T is an object type mapped to a storage.
@@ -434,5 +434,5 @@ namespace sqlite_orm {
         args_tuple conditions{std::forward<Args>(args)...};
         return {move(conditions)};
     }
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 }

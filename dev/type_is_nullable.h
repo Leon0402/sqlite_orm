@@ -2,9 +2,9 @@
 
 #include <type_traits>  //  std::false_type, std::true_type
 #include <memory>  //  std::shared_ptr, std::unique_ptr
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
 #include <optional>  // std::optional
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
 namespace sqlite_orm {
 
@@ -42,7 +42,7 @@ namespace sqlite_orm {
         }
     };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     /**
      *  This is a specialization for std::optional. std::optional is nullable.
      */
@@ -52,6 +52,6 @@ namespace sqlite_orm {
             return t.has_value();
         }
     };
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
 }

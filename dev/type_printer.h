@@ -3,9 +3,9 @@
 #include <string>  //  std::string
 #include <memory>  //  std::shared_ptr, std::unique_ptr
 #include <vector>  //  std::vector
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
 #include <optional>  // std::optional
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
 namespace sqlite_orm {
 
@@ -101,10 +101,10 @@ namespace sqlite_orm {
     template<class T>
     struct type_printer<std::unique_ptr<T>, void> : public type_printer<T> {};
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     template<class T>
     struct type_printer<std::optional<T>, void> : public type_printer<T> {};
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
     template<>
     struct type_printer<std::vector<char>, void> : public blob_printer {};

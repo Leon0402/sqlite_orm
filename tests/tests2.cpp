@@ -1,8 +1,8 @@
 #include <sqlite_orm/sqlite_orm.h>
 #include <catch2/catch.hpp>
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
 #include <optional>  // std::optional
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
 using namespace sqlite_orm;
 

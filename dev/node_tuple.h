@@ -100,13 +100,13 @@ namespace sqlite_orm {
             using type = typename conc_tuple<typename node_tuple<Args>::type...>::type;
         };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
         template<class T, class... Args>
         struct node_tuple<get_all_optional_t<T, Args...>, void> {
             using node_type = get_all_optional_t<T, Args...>;
             using type = typename conc_tuple<typename node_tuple<Args>::type...>::type;
         };
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
         template<class... Args, class... Wargs>
         struct node_tuple<update_all_t<set_t<Args...>, Wargs...>, void> {

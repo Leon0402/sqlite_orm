@@ -145,7 +145,7 @@ namespace sqlite_orm {
         }
     };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     template<class T>
     struct row_extractor<std::optional<T>, void> {
         using value_type = T;
@@ -167,7 +167,7 @@ namespace sqlite_orm {
             }
         }
     };
-#endif  //  SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  //  SQLITE_ORM_HAS_CXX17
     /**
      *  Specialization for std::vector<char>.
      */

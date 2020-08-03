@@ -49,7 +49,7 @@ namespace sqlite_orm {
         return internal::get_ref(std::get<N>(statement.t.ids));
     }
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     template<int N, class T, class... Ids>
     auto &get(internal::prepared_statement_t<internal::get_optional_t<T, Ids...>> &statement) {
         return internal::get_ref(std::get<N>(statement.t.ids));
@@ -59,7 +59,7 @@ namespace sqlite_orm {
     const auto &get(const internal::prepared_statement_t<internal::get_optional_t<T, Ids...>> &statement) {
         return internal::get_ref(std::get<N>(statement.t.ids));
     }
-#endif  // SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  // SQLITE_ORM_HAS_CXX17
 
     template<int N, class T, class... Ids>
     auto &get(internal::prepared_statement_t<internal::remove_t<T, Ids...>> &statement) {

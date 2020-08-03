@@ -93,14 +93,14 @@ namespace sqlite_orm {
         }
     };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     template<>
     struct statement_binder<std::nullopt_t, void> {
         int bind(sqlite3_stmt *stmt, int index, const std::nullopt_t &) {
             return sqlite3_bind_null(stmt, index);
         }
     };
-#endif  //  SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  //  SQLITE_ORM_HAS_CXX17
 
     template<class V>
     struct statement_binder<V, std::enable_if_t<is_std_ptr<V>::value>> {
@@ -133,7 +133,7 @@ namespace sqlite_orm {
         }
     };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
     template<class T>
     struct statement_binder<std::optional<T>, void> {
         using value_type = T;
@@ -146,7 +146,7 @@ namespace sqlite_orm {
             }
         }
     };
-#endif  //  SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  //  SQLITE_ORM_HAS_CXX17
 
     namespace internal {
 

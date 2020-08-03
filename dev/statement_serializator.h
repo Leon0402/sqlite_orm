@@ -1164,7 +1164,7 @@ namespace sqlite_orm {
             return ss.str();
         }
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
         template<class T, class R, class... Args>
         struct statement_serializator<get_all_optional_t<T, R, Args...>, void> {
             using statement_type = get_all_optional_t<T, R, Args...>;
@@ -1174,7 +1174,7 @@ namespace sqlite_orm {
                 return serialize_get_all_impl(get, context);
             }
         };
-#endif  //  SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  //  SQLITE_ORM_HAS_CXX17
 
         template<class T, class R, class... Args>
         struct statement_serializator<get_all_pointer_t<T, R, Args...>, void> {
@@ -1247,7 +1247,7 @@ namespace sqlite_orm {
             }
         };
 
-#ifdef SQLITE_ORM_OPTIONAL_SUPPORTED
+#if SQLITE_ORM_HAS_CXX17
         template<class T, class... Ids>
         struct statement_serializator<get_optional_t<T, Ids...>, void> {
             using statement_type = get_optional_t<T, Ids...>;
@@ -1257,7 +1257,7 @@ namespace sqlite_orm {
                 return serialize_get_impl(get, context);
             }
         };
-#endif  //  SQLITE_ORM_OPTIONAL_SUPPORTED
+#endif  //  SQLITE_ORM_HAS_CXX17
         template<class T, class... Args>
         struct statement_serializator<select_t<T, Args...>, void> {
             using statement_type = select_t<T, Args...>;
